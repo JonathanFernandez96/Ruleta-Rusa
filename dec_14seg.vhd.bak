@@ -1,0 +1,60 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+Entity decoder_de_bin_a_14segmentos is
+	Port(	w: in std_logic_vector(4 downto 0);
+			en: in std_logic;
+			Q: out std_logic_vector(13 downto 0));
+end decoder_de_bin_a_14segmentos;
+
+Architecture sol of decoder_de_bin_a_14segmentos is
+Signal F: std_logic_vector(13 downto 0);
+SIGNAL ZRS,ONE,TWO,TRE: std_logic_vector(6 downto 0);
+
+Begin
+ZRS<="0000000";
+ONE<="0000110";
+TWO<="1011011";
+TRE<="1001111";
+	
+	With w select
+		F<=	   
+		   ZRS &"0000110" when "00001", --01 
+			ZRS &"1011011" when "00010", --02
+			ZRS &"1001111" when "00011", --03
+			ZRS &"1100110" when "00100", --04 
+			ZRS &"1101101" when "00101", --05
+			ZRS &"1111101" when "00110", --06
+			ZRS &"0000111" when "00111", --07
+			ZRS &"1111111" when "01000", --08
+			ZRS &"1101111" when "01001", --09
+			
+			ONE &"1111111" when "01010", --10 
+			ONE &"1011011" when "01011", --11
+			ONE &"1011011" when "01100", --12
+			ONE &"1001111" when "01101", --13
+			ONE &"1100110" when "01110", --14
+			ONE &"1101101" when "01111", --15
+			ONE &"1111101" when "10000", --16
+			ONE &"0000111" when "10001", --17
+			ONE &"1111111" when "10010", --18
+			ONE &"1101111" when "10011", --19
+			
+			TWO &"1111111" when "10100", --20 
+			TWO &"1011011" when "10101", --21
+			TWO &"1011011" when "10110", --22
+			TWO &"1001111" when "10111", --23
+			TWO &"1100110" when "11000", --24
+			TWO &"1101101" when "11001", --25
+			TWO &"1111101" when "11010", --26
+			TWO &"0000111" when "11011", --27
+			TWO &"1111111" when "11100", --28
+			TWO &"1101111" when "11101", --29
+			
+			TRE &"1111111" when "11110", --30 
+			TRE &"1011011" when "11111", --31
+						
+			ZRS &"1111111" when "00000"; --00  
+			
+	Q<=F when en ='1' else "00000000000000";
+end sol;

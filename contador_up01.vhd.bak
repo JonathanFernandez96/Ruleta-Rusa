@@ -1,0 +1,27 @@
+LIBRARY ieee ;
+USE ieee.std_logic_1164.all ;
+USE ieee.std_logic_unsigned.all ;
+
+ENTITY CONTADOR_UP_PROYECTO IS
+PORT ( Clock, Resetn, E,ld: IN STD_LOGIC;
+inp:IN std_logic_vector(3 downto 0);
+Q : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)) ;
+END CONTADOR_UP_PROYECTO ;
+
+ARCHITECTURE Behavior OF CONTADOR_UP_PROYECTO IS
+	SIGNAL Count : STD_LOGIC_VECTOR(3 DOWNTO 0) ;
+	BEGIN
+	PROCESS ( Clock, Resetn )
+	BEGIN
+	IF Resetn = '0' THEN
+	count <= "0000" ;
+	ELSIF (Clock'EVENT AND Clock = '1') THEN
+	IF count /= 8 THEN
+      count <= count + 1;
+   ELSE
+      count <= "000";
+   END IF;
+	END IF ;
+	END PROCESS;
+	Q <= Count;
+END Behavior;

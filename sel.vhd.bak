@@ -1,0 +1,36 @@
+LIBRARY ieee ;
+USE ieee.std_logic_1164.all ;
+USE ieee.std_logic_unsigned.all ;
+
+ENTITY seleccion IS
+PORT (
+		en_gpos, reset, Clock :IN std_logic ;
+		p_fin : OUT STD_LOGIC );
+END seleccion ;
+
+ARCHITECTURE solution OF seleccion IS
+	SIGNAL cont : STD_LOGIC_VECTOR (1 DOWNTO 0) ;
+	BEGIN
+	PROCESS ( Clock, reset )
+	BEGIN
+	IF reset = '0' THEN 
+	cont <= "00";
+	ELSIF (Clock'EVENT AND Clock = '1') THEN
+		IF en_gpos= '1'then
+			IF cont /= 2 THEN
+				cont <= cont + 1;
+			ELSE
+				cont <= "00";
+			end if;
+		else cont <= cont;
+		end if; 
+	else cont <= cont;
+	end if; 
+	if cont="01" then
+		p_fin <='0';
+	elsif cont= "10" then 
+		p_fin <= '1';
+		cont <= "00";
+	end if; 
+	END PROCESS;
+END solution;

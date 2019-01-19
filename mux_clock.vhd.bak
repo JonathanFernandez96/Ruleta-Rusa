@@ -1,0 +1,23 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity mux_clock is
+    Port ( 	clock_100Hz :in  STD_LOGIC;
+				clock_6Hz : in  STD_LOGIC;
+				clock_4Hz : in  STD_LOGIC;
+				clock_2Hz : in  STD_LOGIC;
+				clock_1Hz : in  STD_LOGIC;
+				f_cir: in  STD_LOGIC_VECTOR (2 downto 0);
+				clock: out STD_LOGIC );
+end mux_clock;
+
+architecture Behavioral of mux_clock is
+begin
+    
+	clock <= clock_6HZ when ( f_cir = "001");
+	clock <= clock_4HZ when ( f_cir = "010");
+	clock <= clock_2HZ when ( f_cir = "011");
+	clock <= clock_1HZ when ( f_cir = "100");
+	else clock <= clock_100HZ; 
+	
+end Behavioral;

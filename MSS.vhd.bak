@@ -1,0 +1,64 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+Entity MSS is
+PORT (Clock, Resetn, sel, jugar, start, izq,der, comen: IN STD_LOGIC;
+	
+	f:OUT std_logic_vector(3 downto 0);
+	en_Up, en_Down, reset_UD, choose: OUT STD_LOGIC;
+end MSS;
+
+Architecture sol of MSS is
+type estado is (a,b,c,d,e,f,h,i,j,k,l,m);
+signal y: estado;
+Begin
+process(borrar,clock)
+  begin
+  if borrar='0' then y<=a;
+  elsif clock'event and clock='1' then
+    case y is 
+		when a =>
+			if start='0' then y<=a;
+			else y<=b;end if;
+		
+		when ar=>
+			if start='1' then y<=b;
+			else y<=c;end if; 
+		
+		when b=>
+			if jugar='1' then y<=d;
+			else y<=d; end if;
+		
+		when br=>
+			if jugar='0' then y<=c;
+			else y<=d; end if;
+		
+		when c=>
+			if izq='1' then y<=dr;
+			elsif der='1' then y<=fr;
+			elsif sel='1' then y<=gr;
+			else y<=c; end if;
+		
+		when dr=>
+			if izq='0' then y<=d;
+			else y<=dr; end if;
+			
+		when fr=>
+			if der='0' then y<=f;
+			else y<=fr; end if;
+			
+		when gr=>
+			if sel='0' then y<=g;
+			else y<=gr; end if;
+		
+		when d=>
+			y<=c;
+		
+		when f=>
+			y<=c;
+		
+		when g=>
+			if comen='1' then y<=h;
+			else y<=c; end if;
+		
+		
